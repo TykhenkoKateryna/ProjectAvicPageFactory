@@ -55,4 +55,11 @@ public class BaseTest {
         return new IphonePage(getDriver());
     }
 
+    public SmartWatchPage getSmartWatchPage() {
+        return new SmartWatchPage(getDriver());
+    }
+
+    public GadgetsPage getGadgetsPage() {
+        return new GadgetsPage(getDriver());
+    }
 }

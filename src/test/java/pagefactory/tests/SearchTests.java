@@ -19,6 +19,7 @@ public class SearchTests extends BaseTest {
 
     private String SEARCH_KEYWORD = "iPhone 11";
     private String EXPECTED_SEARCH_QUERY = "query=iPhone";
+    private String SEARCH_GADGET_KEYWORD = "Xiaomi";
 
     @Test(priority = 1)
     public void checkThatUrlContainsSearchWord() {
@@ -40,20 +41,20 @@ public class SearchTests extends BaseTest {
             assertTrue(webElement.getText().contains(SEARCH_KEYWORD));
         }
     }
+
     @Test(priority = 4)
     public void checkThatFilterResultsContainsFilterWord() {
-        driver.findElement(xpath("//span[@class='sidebar-item']")).click();
-        driver.findElement(xpath("//li[contains(@class,'sidebar')]/a[contains(@href, 'gadzhetyi1')]")).click();
-        driver.findElement(xpath("//div[contains(@class,'brand')]/a[contains(text(), 'Смарт-часы')]")).click();
-        new WebDriverWait(driver, 30).until(
-                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-        driver.findElement(xpath("//label[contains(@for,'fltr-proizvoditel-xiaomi')]")).click();
-        WebDriverWait wait5 = new WebDriverWait(driver, 30);
-        wait5.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'open-filter')]//a[contains(@class,'accept')]")));
-        driver.findElement(xpath("//div[contains(@class,'open-filter')]//span[@class='filter-tooltip-inner']")).click();
-        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        List<WebElement> elementList = driver.findElements(xpath("//div[@class='prod-cart__descr']"));
-        for (WebElement webElement : elementList) {
-            assertTrue(webElement.getText().contains("Xiaomi"));
+        getHomePage().clickOnProductCatalogButton();
+        getHomePage().clickOnGadgetButton();
+        getGadgetsPage().clickOnSmartWatchButton();
+        getBasePage().waitForPageLoadComplete(30);
+        getSmartWatchPage().clickOnFilterButton();
+        getBasePage().waitForPageLoadComplete(30);
+        getBasePage().waitVisibilityOfAddToCartPopup(30, getSmartWatchPage().getFilterPopup());
+        getSmartWatchPage().clickOnOpenFilterButton();
+        getBasePage().waitForPageLoadComplete(30);
+        for (WebElement webElement : getSearchResultsPage().getSearchResultsList()) {
+            assertTrue(webElement.getText().contains(SEARCH_GADGET_KEYWORD));
         }
+    }
 }

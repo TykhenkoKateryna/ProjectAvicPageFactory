@@ -11,6 +11,9 @@ public class IphonePage extends BasePage {
     @FindBy(xpath = "//a[@class='prod-cart__buy'][contains(@data-ecomm-cart,'Black (MWLT2)')]")
     private WebElement addToCartButton;
 
+    @FindBy(xpath ="//a[@class='prod-cart__buy'][contains(@data-ecomm-cart,'Red (MX9U2)')]")
+    private WebElement addRedToCartButton;
+
     @FindBy(id = "js_cart")
     private WebElement addToCartPopup;
 
@@ -23,6 +26,10 @@ public class IphonePage extends BasePage {
 
     public void clickOnAddToCartButton() {
         addToCartButton.click();
+    }
+
+    public void clickOnAddRedToCartButton() {
+        addRedToCartButton.click();
     }
 
     public void clickOnContinueShoppingButton() {
